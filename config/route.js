@@ -9,6 +9,8 @@ Picker.route('/post/create', function(params, req, res, next) {
     res.end('success');
 });
 
-Picker.route('/post/update', function(params, req, res, next) {
+Picker.route('/post/delete/:id', function(params, req, res, next) {
+    var id = params.id;
+    Posts.remove({_id: id});
     res.end('success');
 });
