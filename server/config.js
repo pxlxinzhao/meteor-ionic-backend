@@ -10,18 +10,21 @@ if (Meteor.isServer){
 
     Picker.route('/post', function(params, req, res, next) {
         var posts = Posts.find({}).fetch();
+        res.setHeader("Access-Control-Allow-Origin", "*");
         res.end(JSON.stringify(posts));
     });
 
     Picker.route('/post/create', function(params, req, res, next) {
         var post = req.body
         Posts.insert(post);
+        res.setHeader("Access-Control-Allow-Origin", "*");
         res.end('success');
     });
 
     Picker.route('/post/delete/:id', function(params, req, res, next) {
         var id = params.id;
         Posts.remove({_id: id});
+        res.setHeader("Access-Control-Allow-Origin", "*");
         res.end('success');
     });
 }
