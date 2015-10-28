@@ -9,10 +9,21 @@ if (Meteor.isServer){
     Picker.middleware( bodyParser.urlencoded( { extended: false } ) );
 
     Picker.route('/post', function(params, req, res, next) {
-        var posts = Posts.find({}, {sort: {createdTime: -1}}).fetch();
         var condition = req.body;
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.end(JSON.stringify(posts));
+        var limit = condition.limit;
+        var offset = condition.offset;
+        var date = new Date(condition.curTime);
+
+        if (limit && offset && date){
+            var options = {sort: {createdTime: -1}, limit: limit/1, skip: offset/1};
+            var posts = Posts.find({createdTime:{$gt: date}}, options).fetch();
+
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.end(JSON.stringify(posts));
+        }else{
+            res.end('Invalid post data');
+        }
+
     });
 
     Picker.route('/post/create', function(params, req, res, next) {
