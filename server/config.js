@@ -9,13 +9,14 @@ if (Meteor.isServer){
     Picker.middleware( bodyParser.urlencoded( { extended: false } ) );
 
     Picker.route('/post', function(params, req, res, next) {
-        var posts = Posts.find({}).fetch();
+        var posts = Posts.find({}, {sort: {createdTime: -1}}).fetch();
+        var condition = req.body;
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.end(JSON.stringify(posts));
     });
 
     Picker.route('/post/create', function(params, req, res, next) {
-        var post = req.body
+        var post = req.body;
         post.createdTime = new Date().toISOString();
         Posts.insert(post);
         res.setHeader("Access-Control-Allow-Origin", "*");
