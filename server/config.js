@@ -1,7 +1,7 @@
 // You can use the meteorhacks:npm package to load in the body-parser package
 // via NPM.
 if (Meteor.isServer){
-    var bodyParser = Meteor.npmRequire( 'body-parser');
+    var bodyParser = Meteor.npmRequire('body-parser');
 
 // Add two middleware calls. The first attempting to parse the request body as
 // JSON data and the second as URL encoded data.
@@ -16,6 +16,7 @@ if (Meteor.isServer){
 
     Picker.route('/post/create', function(params, req, res, next) {
         var post = req.body
+        post.createdTime = new Date().toISOString();
         Posts.insert(post);
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.end('success');
